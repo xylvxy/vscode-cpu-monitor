@@ -13,7 +13,7 @@ npm i -g @shawn777/vscode-cpu-monitor
 
 ### Homebrew (macOS/Linux)
 ```bash
-brew tap xylvxy/tap
+brew tap xylvxy/vscode-cpu-monitor https://github.com/xylvxy/vscode-cpu-monitor.git
 brew install vscode-cpu-monitor
 ```
 
