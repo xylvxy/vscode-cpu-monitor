@@ -1,4 +1,4 @@
-# Code Monitor
+# VSCode CPU Monitor
 
 A Node.js process monitor designed to solve the **VS Code high CPU usage problem**.
 
@@ -70,14 +70,27 @@ A process will be terminated only when ALL of the following conditions are met:
 5. Kill processes exceeding thresholds
 6. Log all actions
 
+## Installation
+
+```bash
+npm i @shawn777/vscode-cpu-monitor
+```
+
+Or install globally:
+```bash
+npm i -g @shawn777/vscode-cpu-monitor
+```
+
 ## Usage
 
 ```bash
-# Install dependencies
-npm install
-
 # Run monitor
 npm start
+```
+
+Or if installed globally:
+```bash
+vscode-cpu-monitor
 ```
 
 ### Logging

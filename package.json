@@ -1,8 +1,11 @@
 {
-  "name": "vscode-cpu-monitor",
-  "version": "1.0.0",
+  "name": "@shawn777/vscode-cpu-monitor",
+  "version": "1.0.1",
   "description": "Monitor and kill VS Code zombie processes with high CPU usage",
   "main": "index.js",
+  "bin": {
+    "vscode-cpu-monitor": "./index.js"
+  },
   "scripts": {
     "start": "node index.js"
   },
