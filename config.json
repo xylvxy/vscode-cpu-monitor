@@ -1,0 +1,71 @@
+{
+  "cpuThreshold": 80,
+  "memThreshold": 512,
+  "minRunTime": 60,
+  "cpuHitCount": 3,
+  "checkInterval": 5000,
+  "watchList": [
+    "Code Helper (Plugin)"
+  ],
+  "whiteList": {
+    "common": [
+      "node",
+      "npm",
+      "git"
+    ],
+    "darwin": [
+      "launchd",
+      "kernel_task",
+      "WindowServer",
+      "loginwindow",
+      "Finder",
+      "Dock",
+      "SystemUIServer",
+      "coreaudiod",
+      "bluetoothd",
+      "mds",
+      "mds_stores",
+      "mdworker",
+      "cfprefsd",
+      "distnoted",
+      "trustd",
+      "opendirectoryd",
+      "securityd",
+      "UserEventAgent"
+    ],
+    "linux": [
+      "init",
+      "systemd",
+      "kthreadd",
+      "ksoftirqd",
+      "kworker",
+      "migration",
+      "watchdog",
+      "rcu_sched",
+      "rcu_bh",
+      "dbus-daemon",
+      "NetworkManager",
+      "sshd",
+      "cron",
+      "rsyslogd",
+      "journald"
+    ],
+    "win32": [
+      "System",
+      "smss",
+      "csrss",
+      "wininit",
+      "services",
+      "lsass",
+      "svchost",
+      "explorer",
+      "dwm",
+      "taskhostw",
+      "RuntimeBroker",
+      "ShellExperienceHost",
+      "SearchIndexer",
+      "spoolsv",
+      "WmiPrvSE"
+    ]
+  }
+}
