@@ -4,6 +4,19 @@ A Node.js process monitor designed to solve the **VS Code high CPU usage problem
 
 VS Code's `Code Helper (Plugin)` process often becomes a zombie process with extremely high CPU usage (90%+), causing system lag and battery drain. This tool automatically detects and terminates such runaway processes.
 
+## Installation
+
+### npm
+```bash
+npm i -g @shawn777/vscode-cpu-monitor
+```
+
+### Homebrew (macOS/Linux)
+```bash
+brew tap xylvxy/tap
+brew install vscode-cpu-monitor
+```
+
 ## Features
 
 ### Core Features
@@ -69,17 +82,6 @@ A process will be terminated only when ALL of the following conditions are met:
 4. Check CPU and memory usage
 5. Kill processes exceeding thresholds
 6. Log all actions
-
-## Installation
-
-```bash
-npm i @shawn777/vscode-cpu-monitor
-```
-
-Or install globally:
-```bash
-npm i -g @shawn777/vscode-cpu-monitor
-```
 
 ## Usage
 
