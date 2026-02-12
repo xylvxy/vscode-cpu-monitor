@@ -1,11 +1,11 @@
 {
-  "name": "code-monitor",
+  "name": "vscode-cpu-monitor",
   "version": "1.0.0",
-  "description": "Node.js 进程监控程序,监控和终止 CPU 占用过高的僵尸进程",
+  "description": "Monitor and kill VS Code zombie processes with high CPU usage",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
-  "keywords": ["monitor", "process", "cpu"],
+  "keywords": ["vscode", "cpu", "monitor", "process", "zombie", "kill"],
   "license": "MIT"
 }
