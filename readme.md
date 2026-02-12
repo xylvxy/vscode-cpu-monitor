@@ -86,13 +86,35 @@ A process will be terminated only when ALL of the following conditions are met:
 ## Usage
 
 ```bash
-# Run monitor
-npm start
+vscode-cpu-monitor [options]
 ```
 
-Or if installed globally:
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `-d, --daemon` | Run in background (daemon mode) |
+| `-l, --log [date]` | View logs (default: today, format: YYYY-MM-DD) |
+| `-s, --stop` | Stop the background daemon |
+| `-h, --help` | Show help message |
+
+### Examples
+
 ```bash
+# Start monitor in foreground
 vscode-cpu-monitor
+
+# Start monitor in background
+vscode-cpu-monitor -d
+
+# View today's logs
+vscode-cpu-monitor -l
+
+# View logs for specific date
+vscode-cpu-monitor -l 2024-01-15
+
+# Stop background daemon
+vscode-cpu-monitor -s
 ```
 
 ### Logging

@@ -1,12 +1,127 @@
 #!/usr/bin/env node
 
-const { execSync, exec } = require('child_process');
+const { execSync, exec, spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
 // Platform detection
 const platform = os.platform(); // 'darwin', 'linux', 'win32'
+
+// CLI argument parsing
+const args = process.argv.slice(2);
+
+// Help message
+function showHelp() {
+  console.log(`
+VSCode CPU Monitor - Monitor and kill VS Code zombie processes
+
+Usage:
+  vscode-cpu-monitor [options]
+
+Options:
+  -d, --daemon     Run in background (daemon mode)
+  -l, --log [date] View logs (default: today, format: YYYY-MM-DD)
+  -s, --stop       Stop the background daemon
+  -h, --help       Show this help message
+
+Examples:
+  vscode-cpu-monitor          Start monitor in foreground
+  vscode-cpu-monitor -d       Start monitor in background
+  vscode-cpu-monitor -l       View today's logs
+  vscode-cpu-monitor -l 2024-01-15  View logs for specific date
+  vscode-cpu-monitor -s       Stop background daemon
+`);
+  process.exit(0);
+}
+
+// PID file for daemon management
+const pidFile = path.join(__dirname, '.daemon.pid');
+
+// Handle -h/--help
+if (args.includes('-h') || args.includes('--help')) {
+  showHelp();
+}
+
+// Handle -s/--stop
+if (args.includes('-s') || args.includes('--stop')) {
+  if (fs.existsSync(pidFile)) {
+    const pid = parseInt(fs.readFileSync(pidFile, 'utf-8').trim(), 10);
+    try {
+      process.kill(pid, 'SIGTERM');
+      fs.unlinkSync(pidFile);
+      console.log(`Daemon stopped (PID: ${pid})`);
+    } catch (e) {
+      fs.unlinkSync(pidFile);
+      console.log('Daemon was not running');
+    }
+  } else {
+    console.log('No daemon is running');
+  }
+  process.exit(0);
+}
+
+// Handle -l/--log
+const logIndex = args.findIndex(a => a === '-l' || a === '--log');
+if (logIndex !== -1) {
+  const logDir = path.join(__dirname, 'log');
+  let date = new Date().toISOString().split('T')[0]; // Default: today
+
+  // Check if next argument is a date
+  if (args[logIndex + 1] && !args[logIndex + 1].startsWith('-')) {
+    date = args[logIndex + 1];
+  }
+
+  const logFile = path.join(logDir, `${date}.log`);
+
+  if (fs.existsSync(logFile)) {
+    console.log(fs.readFileSync(logFile, 'utf-8'));
+  } else {
+    // List available log files
+    if (fs.existsSync(logDir)) {
+      const files = fs.readdirSync(logDir).filter(f => f.endsWith('.log')).sort().reverse();
+      if (files.length > 0) {
+        console.log(`No log found for ${date}. Available logs:`);
+        files.slice(0, 10).forEach(f => console.log(`  ${f.replace('.log', '')}`));
+      } else {
+        console.log('No logs available');
+      }
+    } else {
+      console.log('No logs available');
+    }
+  }
+  process.exit(0);
+}
+
+// Handle -d/--daemon
+if (args.includes('-d') || args.includes('--daemon')) {
+  // Check if already running
+  if (fs.existsSync(pidFile)) {
+    const pid = parseInt(fs.readFileSync(pidFile, 'utf-8').trim(), 10);
+    try {
+      process.kill(pid, 0); // Check if process exists
+      console.log(`Daemon already running (PID: ${pid})`);
+      process.exit(0);
+    } catch (e) {
+      // Process not running, remove stale pid file
+      fs.unlinkSync(pidFile);
+    }
+  }
+
+  // Spawn detached process
+  const child = spawn(process.execPath, [__filename], {
+    detached: true,
+    stdio: 'ignore',
+    env: { ...process.env, DAEMON_MODE: '1' }
+  });
+
+  child.unref();
+  fs.writeFileSync(pidFile, String(child.pid));
+  console.log(`Daemon started (PID: ${child.pid})`);
+  console.log(`View logs: vscode-cpu-monitor -l`);
+  console.log(`Stop daemon: vscode-cpu-monitor -s`);
+  process.exit(0);
+}
 
 // Load configuration
 const configPath = path.join(__dirname, 'config.json');
@@ -38,6 +153,9 @@ function getLogFilePath() {
   return path.join(logDir, `${date}.log`);
 }
 
+// Check if running as daemon
+const isDaemon = process.env.DAEMON_MODE === '1';
+
 /**
  * Write log
  * @param {string} level - Log level: INFO/WARN/ERROR/KILL
@@ -47,8 +165,10 @@ function log(level, message) {
   const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
   const logLine = `[${timestamp}] [${level}] ${message}`;
 
-  // Output to console
-  console.log(logLine);
+  // Output to console (skip in daemon mode)
+  if (!isDaemon) {
+    console.log(logLine);
+  }
 
   // Write to file
   const logFile = getLogFilePath();
