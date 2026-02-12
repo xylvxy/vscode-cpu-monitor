@@ -3,7 +3,7 @@
   "memThreshold": 512,
   "minRunTime": 60,
   "cpuHitCount": 3,
-  "checkInterval": 5000,
+  "checkInterval": 60000,
   "watchList": [
     "Code Helper (Plugin)"
   ],

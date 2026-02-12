@@ -42,7 +42,7 @@ Code Helper (Plugin)
 | `memThreshold` | Memory threshold (MB) | 512 |
 | `minRunTime` | Minimum run time (s) | 60 |
 | `cpuHitCount` | Consecutive CPU threshold hits | 3 |
-| `checkInterval` | Check interval (ms) | 5000 |
+| `checkInterval` | Check interval (ms) | 60000 |
 | `watchList` | Process watch list | See above |
 
 ### White List

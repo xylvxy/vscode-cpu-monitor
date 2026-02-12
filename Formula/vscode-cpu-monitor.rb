@@ -1,8 +1,8 @@
 class VscodeCpuMonitor < Formula
   desc "Monitor and kill VS Code zombie processes with high CPU usage"
   homepage "https://github.com/xylvxy/vscode-cpu-monitor"
-  url "https://registry.npmjs.org/@shawn777/vscode-cpu-monitor/-/vscode-cpu-monitor-1.1.0.tgz"
-  sha256 "b753cfc84b4b91d1afd862a12244009a68f4a73df8b75d40bb2c787c72861ac4"
+  url "https://registry.npmjs.org/@shawn777/vscode-cpu-monitor/-/vscode-cpu-monitor-1.1.1.tgz"
+  sha256 "0f65d4de842269a5224bd89a07bf575df128fefd0992bff4a1d29972937bc5ce"
   license "MIT"
 
   depends_on "node"
