@@ -39,8 +39,7 @@ Code Helper (Plugin)
 | Option | Description | Default |
 |--------|-------------|---------|
 | `cpuThreshold` | CPU usage threshold (%) | 80 |
-| `memThreshold` | Memory threshold (MB) | 512 |
-| `minRunTime` | Minimum run time (s) | 60 |
+| `minRunTime` | Minimum run time (s) | 600 |
 | `cpuHitCount` | Consecutive CPU threshold hits | 3 |
 | `checkInterval` | Check interval (ms) | 60000 |
 | `watchList` | Process watch list | See above |
@@ -65,21 +64,19 @@ A process will be terminated only when ALL of the following conditions are met:
 1. **In watch list** - Process name matches any item in watchList
 2. **Not in white list** - Process is not protected by the white list
 3. **Run time threshold** - Running time >= `minRunTime` (avoids killing newly started processes)
-4. **Resource threshold exceeded** - Either of:
+4. **Resource threshold exceeded**:
    - CPU exceeds `cpuThreshold` for `cpuHitCount` consecutive checks
-   - Memory exceeds `memThreshold`
 
 **Notes:**
 - CPU uses consecutive hit counting to avoid false kills from temporary spikes
 - CPU counter resets automatically when CPU returns to normal
-- Memory threshold triggers immediate termination (no consecutive checks)
 
 ### Execution Flow
 
 1. Scan system processes at configured interval
 2. Filter processes matching the watch list
 3. Skip processes in the white list
-4. Check CPU and memory usage
+4. Check CPU usage
 5. Kill processes exceeding thresholds
 6. Log all actions
 

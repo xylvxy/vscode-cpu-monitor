@@ -1,7 +1,6 @@
 {
   "cpuThreshold": 80,
-  "memThreshold": 512,
-  "minRunTime": 60,
+  "minRunTime": 600,
   "cpuHitCount": 3,
   "checkInterval": 60000,
   "watchList": [

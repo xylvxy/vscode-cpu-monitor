@@ -127,7 +127,7 @@ if (args.includes('-d') || args.includes('--daemon')) {
 const configPath = path.join(__dirname, 'config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
-const { cpuThreshold, memThreshold, minRunTime, cpuHitCount, checkInterval, watchList, whiteList } = config;
+const { cpuThreshold, minRunTime, cpuHitCount, checkInterval, watchList, whiteList } = config;
 
 // Merge white list: common + current platform
 const platformWhiteList = [
@@ -179,7 +179,6 @@ const platformNames = { darwin: 'macOS', linux: 'Linux', win32: 'Windows' };
 log('INFO', '=== Code Monitor Started ===');
 log('INFO', `Platform: ${platformNames[platform] || platform}`);
 log('INFO', `CPU threshold: ${cpuThreshold}%, consecutive hits: ${cpuHitCount}`);
-log('INFO', `Memory threshold: ${memThreshold}MB`);
 log('INFO', `Min run time: ${minRunTime}s`);
 log('INFO', `Check interval: ${checkInterval}ms`);
 log('INFO', `Watch list: ${watchList.length} process(es)`);
@@ -359,12 +358,6 @@ function check() {
 
     let shouldKill = false;
     let reason = '';
-
-    // Check memory threshold
-    if (mem > memThreshold) {
-      shouldKill = true;
-      reason = `Memory ${mem}MB exceeded threshold ${memThreshold}MB`;
-    }
 
     // Check CPU threshold
     if (cpu > cpuThreshold) {
